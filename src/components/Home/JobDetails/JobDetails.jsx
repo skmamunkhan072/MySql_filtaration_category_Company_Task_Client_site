@@ -11,9 +11,10 @@ const JobDitails = () => {
   const [allSkil, setAllSkil] = useState([]);
   const [jobTitle, setjobTitle] = useState("");
   const [location, setLocation] = useState("");
-  const [remote, setRemote] = useState("");
-  const [onsite, setOnsite] = useState("");
-  const [partial, setPartial] = useState("");
+  const [jobType, setJobType] = useState("");
+  const [skill, setSkill] = useState("");
+  const [expected, setExpected] = useState("");
+  const [experience, setExperience] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/job_info")
@@ -40,20 +41,24 @@ const JobDitails = () => {
   };
 
   useEffect(() => {
-    if (jobTitle || location || remote || onsite || partial) {
-      console.log(jobTitle, location, remote, onsite, partial);
+    if (jobTitle || location || jobType || experience || skill || expected) {
+      console.log(experience);
+
+      console.log(jobTitle, location, jobType);
       fetch(
-        `http://localhost:5000/search_job_info?jobTitle=${jobTitle}&location=${location}&remote=${remote}&onsite=${onsite}&partial=${partial}`
+        `http://localhost:5000/search_job_info?jobTitle=${jobTitle}&location=${location}&jobType=${jobType}&experience=${experience}&skill=${skill}&expected=${expected}`
       )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
           setJobData(data);
+          setJobType("");
         });
     }
-  }, [jobTitle, location, remote, onsite, partial]);
+  }, [jobTitle, location, jobType, skill, expected, experience]);
   // remoteJob
 
+  console.log(expected);
   return (
     <div>
       <div className="pb-20">
@@ -127,10 +132,10 @@ const JobDitails = () => {
               type="checkbox"
               value=""
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              onClick={() => setRemote("remote")}
+              onClick={() => setJobType("remote")}
             />
             <label
-              htmlhtmlFor="default-checkbox"
+              htmlFor="default-checkbox"
               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
             >
               Remote
@@ -142,10 +147,11 @@ const JobDitails = () => {
               type="checkbox"
               value=""
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              onClick={() => setOnsite("onsite")}
+              onClick={() => setJobType("onsite")}
+              checked
             />
             <label
-              htmlhtmlFor="default-checkbox"
+              htmlFor="default-checkbox"
               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
             >
               Onsite
@@ -157,14 +163,51 @@ const JobDitails = () => {
               type="checkbox"
               value=""
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              onClick={() => setPartial("partial")}
+              onClick={() => setJobType("partial")}
             />
             <label
-              htmlhtmlFor="default-checkbox"
+              htmlFor="default-checkbox"
               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
             >
               Partial
             </label>
+          </div>
+          <div className="pr-10">
+            <div>
+              <label htmlFor="underline_select" className="sr-only">
+                Underline select
+              </label>
+              <select
+                id="underline_select"
+                className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                onChange={(e) => setExperience(e.target.value)}
+              >
+                <option selected>Fresher</option>
+                <option>Intermediate</option>
+                <option>MId Sinier</option>
+                <option>Expert</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="underline_select" className="sr-only">
+                Underline select
+              </label>
+              <select
+                id="underline_select"
+                name="expected"
+                className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                onChange={(e) => setExpected(e.target.value)}
+              >
+                <option selected>CTC- 0- 2 lakhs</option>
+                <option>CTC- 1- 3 lakhs</option>
+                <option>CTC- 2- 4 lakhs</option>
+                <option>CTC- 3- 5 lakhs</option>
+                <option>CTC- 5- 7 lakhs</option>
+                <option>CTC- 7- 9 lakhs</option>
+                <option>CTC- 7- 10 lakhs</option>
+              </select>
+            </div>
           </div>
         </div>
         <div className="col-span-4">
@@ -229,6 +272,12 @@ const JobDitails = () => {
                 </div>
               </div>
             ))}
+
+          {!jobData.length && (
+            <div className="h-[400px] flex justify-center items-center">
+              <p className="text-3xl dark:text-white">Not Fund Data</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
