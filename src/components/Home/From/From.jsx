@@ -11,7 +11,8 @@ const From = () => {
   // handleKeyDown
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      console.log(e.target.value);
+      e.preventDefault();
+      // console.log(e.target.value);
       if (defaultAllSkills) {
         setDefaultAllSkills("");
         const newAllSkill = [...allSkills, defaultAllSkills];
@@ -44,7 +45,10 @@ const From = () => {
       expected,
       experience,
     };
-    console.log(jobPostData);
+    jobPostFun(jobPostData, form);
+  };
+
+  const jobPostFun = (jobPostData, form) => {
     fetch("http://localhost:5000/job_info", {
       method: "POST",
       headers: {
