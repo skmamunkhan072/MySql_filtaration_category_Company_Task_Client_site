@@ -12,8 +12,6 @@ const JobDitails = () => {
   const [jobTitle, setjobTitle] = useState("");
   const [location, setLocation] = useState("");
   const [remoteJobSearch, setRemoteJobSearch] = useState("");
-  const [onsiteJobSearch, setOnsiteJobSearch] = useState("");
-  const [partialJobSearch, setPartialJobSearch] = useState("");
   const [expected, setExpected] = useState("");
   const [experience, setExperience] = useState("");
   const [skillsSearchValue, setSkillsSearchValue] = useState("");
@@ -45,15 +43,13 @@ const JobDitails = () => {
       jobTitle ||
       location ||
       remoteJobSearch ||
-      onsiteJobSearch ||
-      partialJobSearch ||
       experience ||
       expected ||
       skillSerchDatabas
     ) {
       console.log(skillSerchDatabas);
       fetch(
-        `http://localhost:5000/search_job_info?jobTitle=${jobTitle}&location=${location}&remoteJobSearch=${remoteJobSearch}&onsiteJobSearch=${onsiteJobSearch}&partialJobSearch=${partialJobSearch}&experience=${experience}&expected=${expected}&skillSerchDatabas=${skillSerchDatabas}`
+        `http://localhost:5000/search_job_info?jobTitle=${jobTitle}&location=${location}&remoteJobSearch=${remoteJobSearch}&experience=${experience}&expected=${expected}&skillSerchDatabas=${skillSerchDatabas}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -66,8 +62,6 @@ const JobDitails = () => {
     jobTitle,
     location,
     remoteJobSearch,
-    onsiteJobSearch,
-    partialJobSearch,
     expected,
     experience,
     allSkillsSearchValue,
@@ -122,6 +116,8 @@ const JobDitails = () => {
     "CTC- 7- 9 lakhs",
     "CTC- 7- 10 lakhs",
   ];
+
+  const jobType = ["remote", "onsite", "partial"];
   // console.log(skill);
   return (
     <div>
@@ -190,69 +186,27 @@ const JobDitails = () => {
 
       <div className="grid gap-2 grid-cols-1 md:grid-cols-5">
         <div className="text-black dark:text-white">
-          <div className="flex items-center mb-4">
-            <div className="flex items-center">
-              <input
-                id="default-radio-1"
-                type="radio"
-                value=""
-                name="default-radio"
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                onClick={() => {
-                  setOnsiteJobSearch("");
-                  setPartialJobSearch("");
-                  setRemoteJobSearch("remote");
-                }}
-              />
-              <label
-                htmlFor="default-radio-1"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                Remote
-              </label>
-            </div>
-          </div>
-          <div className="flex items-center mb-4">
-            <div className="flex items-center">
-              <input
-                id="default-radio-2"
-                type="radio"
-                value=""
-                name="default-radio"
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                onClick={() => {
-                  setRemoteJobSearch("");
-                  setPartialJobSearch("");
-                  setOnsiteJobSearch("onsite");
-                }}
-              />
-              <label
-                htmlFor="default-radio-2"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                Onsite
-              </label>
-            </div>
-          </div>
-          <div className="flex items-center mb-4">
-            <input
-              id="default-radio-2"
-              type="radio"
-              name="default-radio"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              onClick={() => {
-                setRemoteJobSearch("");
-                setOnsiteJobSearch("");
-                setPartialJobSearch("partial");
-              }}
-            />
-            <label
-              htmlFor="default-radio-2"
-              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Partial
-            </label>
-          </div>
+          {jobType &&
+            jobType.map((data, i) => (
+              <div key={i} className="flex items-center mb-4">
+                <div className="flex items-center">
+                  <input
+                    id="default-radio-1"
+                    type="radio"
+                    value=""
+                    name="default-radio"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    onClick={() => setRemoteJobSearch(data)}
+                  />
+                  <label
+                    htmlFor="default-radio-1"
+                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    {data}
+                  </label>
+                </div>
+              </div>
+            ))}
 
           <div className="pr-10">
             <div>
@@ -281,10 +235,7 @@ const JobDitails = () => {
                       value=""
                       name="CTC-radio"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      onClick={() => {
-                        setExpected(data);
-                        console.log(data);
-                      }}
+                      onClick={() => setExpected(data)}
                     />
                     <label
                       htmlFor="CTC-radio-2"
