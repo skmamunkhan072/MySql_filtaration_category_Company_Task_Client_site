@@ -24,10 +24,8 @@ const JobDitails = () => {
     fetch("http://localhost:5000/job_info")
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
         if (data) {
           setJobData(data);
-          // console.log(data);
         }
       });
   }, []);
@@ -37,7 +35,6 @@ const JobDitails = () => {
     const from = e.target;
     const searchJobTitle = from.jobTitle.value;
     const searchLocation = from.location.value;
-    // console.log(jobTitle, location);
     setLocation(searchLocation);
     setjobTitle(searchJobTitle);
   };
@@ -116,6 +113,15 @@ const JobDitails = () => {
     }
   };
 
+  const ctcArray = [
+    "CTC- 0- 2 lakhs",
+    "CTC- 1- 3 lakhs",
+    "CTC- 2- 4 lakhs",
+    "CTC- 3- 5 lakhs",
+    "CTC- 5- 7 lakhs",
+    "CTC- 7- 9 lakhs",
+    "CTC- 7- 10 lakhs",
+  ];
   // console.log(skill);
   return (
     <div>
@@ -265,25 +271,31 @@ const JobDitails = () => {
               </select>
             </div>
 
-            <div>
-              <label htmlFor="underline_select" className="sr-only">
-                Underline select
-              </label>
-              <select
-                id="underline_select"
-                name="expected"
-                className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                onChange={(e) => setExpected(e.target.value)}
-              >
-                <option selected>CTC- 0- 2 lakhs</option>
-                <option>CTC- 1- 3 lakhs</option>
-                <option>CTC- 2- 4 lakhs</option>
-                <option>CTC- 3- 5 lakhs</option>
-                <option>CTC- 5- 7 lakhs</option>
-                <option>CTC- 7- 9 lakhs</option>
-                <option>CTC- 7- 10 lakhs</option>
-              </select>
+            <div className="mt-5">
+              {ctcArray &&
+                ctcArray.map((data, i) => (
+                  <div key={i} className="flex items-center mt-3">
+                    <input
+                      id="CTC-radio-2"
+                      type="radio"
+                      value=""
+                      name="CTC-radio"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      onClick={() => {
+                        setExpected(data);
+                        console.log(data);
+                      }}
+                    />
+                    <label
+                      htmlFor="CTC-radio-2"
+                      className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      {data}
+                    </label>
+                  </div>
+                ))}
             </div>
+
             <div className="mt-5">
               <form onSubmit={handelSearchSkill}>
                 <label
