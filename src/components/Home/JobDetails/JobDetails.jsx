@@ -17,12 +17,17 @@ const JobDitails = () => {
   const [skillsSearchValue, setSkillsSearchValue] = useState("");
   const [allSkillsSearchValue, setAllSkillsSearchValue] = useState([]);
   const [skillSerchDatabas, setSkillSerchDatabas] = useState("");
+  const [selectCheckBox, setSelectCheckBox] = useState("");
+  const [CtcSelectCheckBoxId, setCtcSelectCheckBoxId] = useState("");
+  const [ctcSelectCheckBox, setCtcSelectCheckBox] = useState("");
+  const [SelectCheckBoxId, setSelectCheckBoxId] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/job_info")
       .then((res) => res.json())
       .then((data) => {
         if (data) {
+          console.log(data);
           setJobData(data);
         }
       });
@@ -54,6 +59,7 @@ const JobDitails = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data) {
+            console.log(data);
             setJobData(data);
           }
         });
@@ -67,6 +73,7 @@ const JobDitails = () => {
     allSkillsSearchValue,
     skillSerchDatabas,
   ]);
+  console.log(SelectCheckBoxId);
 
   // handel Search Value for on chenge
   const handelSearchValue = (e) => {
@@ -108,22 +115,92 @@ const JobDitails = () => {
   };
 
   const ctcArray = [
-    "CTC- 0- 2 lakhs",
-    "CTC- 1- 3 lakhs",
-    "CTC- 2- 4 lakhs",
-    "CTC- 3- 5 lakhs",
-    "CTC- 5- 7 lakhs",
-    "CTC- 7- 9 lakhs",
-    "CTC- 7- 10 lakhs",
+    {
+      id: 1,
+      value: "CTC- 0- 2 lakhs",
+    },
+    {
+      id: 2,
+      value: "CTC- 1- 3 lakhs",
+    },
+    {
+      id: 3,
+      value: "CTC- 2- 4 lakhs",
+    },
+    {
+      id: 4,
+      value: "CTC- 3- 5 lakhs",
+    },
+    {
+      id: 5,
+      value: "CTC- 5- 7 lakhs",
+    },
+    {
+      id: 6,
+      value: "CTC- 7- 9 lakhs",
+    },
+    {
+      id: 7,
+      value: "CTC- 7- 10 lakhs",
+    },
   ];
 
-  const jobType = ["remote", "onsite", "partial"];
-  // console.log(skill);
+  const jobType = [
+    {
+      id: 1,
+      value: "remote",
+      checkBoxName: "remote",
+      count: 1,
+    },
+    {
+      id: 2,
+      value: "onsite",
+      checkBoxName: "onsite",
+      count: 1,
+    },
+    {
+      id: 3,
+      value: "partial",
+      checkBoxName: "partial",
+      count: 1,
+    },
+  ];
+
+  // find job type job search function
+  const findJobType = (id, value) => {
+    setSelectCheckBoxId(id);
+    if (SelectCheckBoxId === id) {
+      console.log(id, "same id");
+      setCtcSelectCheckBox("");
+      setSelectCheckBoxId("");
+      setRemoteJobSearch("%");
+      return;
+    }
+    setCtcSelectCheckBox(id);
+    setRemoteJobSearch(value);
+  };
+
+  // find CTC Job Filter function
+  const findCtctype = (id, value) => {
+    setCtcSelectCheckBoxId(id);
+    if (CtcSelectCheckBoxId === id) {
+      console.log(id, "same id");
+      setSelectCheckBox("");
+      setCtcSelectCheckBoxId("");
+      setExpected("%");
+      return;
+    }
+    setSelectCheckBox(id);
+    setExpected(value);
+  };
+
+  console.log(jobData?.length);
   return (
     <div>
       <div className="pb-20">
         <h1 className="text-white mb-10">
           <Link to="/">Home</Link>
+          <h1 className="text-white">Total job data {jobData?.length}</h1>
         </h1>
         <div>
           <form className="flex items-center" onSubmit={jobSearch}>
@@ -191,18 +268,20 @@ const JobDitails = () => {
               <div key={i} className="flex items-center mb-4">
                 <div className="flex items-center">
                   <input
-                    id="default-radio-1"
-                    type="radio"
+                    id={data?.id}
+                    type="checkbox"
                     value=""
-                    name="default-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    onClick={() => setRemoteJobSearch(data)}
+                    name={data?.checkBoxName}
+                    checked={data?.id === ctcSelectCheckBox}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    onClick={() => findJobType(data?.id, data?.value)}
                   />
+
                   <label
-                    htmlFor="default-radio-1"
+                    for="default-checkbox"
                     className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >
-                    {data}
+                    {data?.value}
                   </label>
                 </div>
               </div>
@@ -230,18 +309,19 @@ const JobDitails = () => {
                 ctcArray.map((data, i) => (
                   <div key={i} className="flex items-center mt-3">
                     <input
-                      id="CTC-radio-2"
-                      type="radio"
+                      id={data?.id}
+                      type="checkbox"
                       value=""
-                      name="CTC-radio"
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      onClick={() => setExpected(data)}
+                      name={data?.value}
+                      checked={data?.id === selectCheckBox}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      onClick={() => findCtctype(data?.id, data?.value)}
                     />
                     <label
                       htmlFor="CTC-radio-2"
                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      {data}
+                      {data?.value}
                     </label>
                   </div>
                 ))}

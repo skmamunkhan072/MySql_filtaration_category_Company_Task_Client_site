@@ -71,10 +71,98 @@ const From = () => {
 
   console.log(defaultAllSkills);
 
+  const data = [
+    {
+      job_title: "web developer",
+      skills_required: ["html", "css", "java"],
+      job_duration: "more than 6 months",
+      freelancer_type: "Independent freelancer",
+      JobLocation: "bangladesh",
+      english_level: " Conversational",
+      years_of_experience_preferred: "undefined",
+      project_expire_date: "2023-02-03",
+      project_deadline_date: "2023-03-03",
+      fixed_project: "Hourly based project",
+      minimum_price: "74",
+      maximum_price: "80",
+      job_categories: "Mobiles,",
+      language: "Portuguese",
+      project_level: "Expensive",
+      projectFile:
+        "uploads/Recruiter defects 13 th jan.docx-1674216621994.vnd.openxmlformats-officedocument.wordprocessingml.document",
+      job_details: "loremm sf",
+      project_location_type: " Partial Onsite",
+      PersonID: "x78Y3IcfaqdqFkxjEkmO65sia0G2",
+      project_start_date: "2023-02-24",
+    },
+    {
+      job_title: "software Enginer ",
+      skills_required: ["html ", "css"],
+      job_duration: "more than 6 months",
+      freelancer_type: "Independent freelancer",
+      JobLocation: "UK",
+      english_level: " Conversational",
+      years_of_experience_preferred: "undefined",
+      project_expire_date: "2023-02-06",
+      project_deadline_date: "2023-02-11",
+      fixed_project: "Fixed project",
+      minimum_price: "74",
+      maximum_price: "80",
+      job_categories: "Video & Animation",
+      language: "Hindi",
+      project_level: "Basic level",
+      projectFile:
+        "uploads/task assigned to zishan on 24th-jan.docx-1674638201013.vnd.openxmlformats-officedocument.wordprocessingml.document",
+      job_details: "fkjb jgj fgjfd kfkj jit ig hk tk  ttyht ",
+      project_location_type: " Partial Onsite",
+      PersonID: "x78Y3IcfaqdqFkxjEkmO65sia0G2",
+      project_start_date: "2023-01-26",
+    },
+    {
+      job_title: "ui designer",
+      skills_required: [],
+      job_duration: "03 to 06 months",
+      freelancer_type: "Independent freelancer",
+      JobLocation: "delhi",
+      english_level: " Conversational",
+      years_of_experience_preferred: "undefined",
+      project_expire_date: "2023-03-28",
+      project_deadline_date: "2023-04-28",
+      fixed_project: "Fixed project",
+      minimum_price: "200",
+      maximum_price: "220",
+      job_categories: "Programming & Tech",
+      language: "English",
+      project_level: "Basic level",
+      projectFile:
+        "uploads/18th jan zishan work to design.docx-1674817116532.vnd.openxmlformats-officedocument.wordprocessingml.document",
+      job_details: "dgfggfg",
+      project_location_type: " remote",
+      PersonID: null,
+      project_start_date: "2023-01-28",
+    },
+  ];
+
+  const handelDataInsert = () => {
+    console.log("Hello");
+
+    fetch("http://localhost:5000/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data[2]));
+  };
   return (
     <div>
       <div>
         <h1 className="text-white mb-10">
+          <button onClick={handelDataInsert} className="text-white">
+            cleck me
+          </button>
           <Link to="/Job-details">Job Search</Link>
         </h1>
       </div>
